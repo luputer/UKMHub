@@ -58,6 +58,15 @@ const transactionNavigationItems = [
   },
 ] as const;
 
+const navigationButtonClass =
+  "relative h-10 overflow-hidden rounded-md px-3 text-sm font-medium transition-colors";
+
+const activeNavigationClass =
+  "bg-sidebar-accent text-sidebar-accent-foreground shadow-none hover:bg-sidebar-accent hover:text-sidebar-accent-foreground";
+
+const inactiveNavigationClass =
+  "text-sidebar-foreground/75 hover:bg-muted hover:text-sidebar-foreground";
+
 export function DashboardSidebar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -71,18 +80,29 @@ export function DashboardSidebar() {
   });
 
   return (
-    <Sidebar collapsible="icon" variant="inset" className="border-r border-gray-100 bg-gray-50/30">
-      <SidebarHeader className="pt-4 pb-2">
+    <Sidebar
+      collapsible="icon"
+      variant="inset"
+      className="border-sidebar-border bg-sidebar border-r"
+    >
+      <SidebarHeader className="px-3 pt-4 pb-3">
         <SidebarMenu>
           <SidebarMenuItem>
-            <Link href="/dashboard" className="flex items-center gap-3 px-2 group">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center shrink-0 shadow-sm shadow-teal-600/20 group-hover:shadow-teal-600/40 transition-all">
-                <Building2 className="w-4.5 h-4.5 text-white" />
+            <Link
+              href="/dashboard"
+              className="group flex items-center gap-3 rounded-md px-2 py-1.5"
+            >
+              <div className="bg-primary text-primary-foreground group-hover:bg-primary/90 flex h-9 w-9 shrink-0 items-center justify-center rounded-md shadow-sm transition-colors">
+                <Building2 className="h-4.5 w-4.5" />
               </div>
               {state !== "collapsed" && (
                 <div className="flex flex-col overflow-hidden">
-                  <span className="font-bold text-sm tracking-tight text-gray-900 truncate">POLIBAN UKM</span>
-                  <span className="text-[11px] font-medium text-gray-500 truncate">Sistem Pengelolaan</span>
+                  <span className="text-sidebar-foreground truncate text-sm font-semibold tracking-tight">
+                    POLIBAN UKM
+                  </span>
+                  <span className="text-muted-foreground truncate text-xs font-medium">
+                    Sistem Pengelolaan
+                  </span>
                 </div>
               )}
             </Link>
@@ -90,10 +110,11 @@ export function DashboardSidebar() {
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent className="px-2 mt-4 space-y-6">
-        {/* GROUP 1: MENU UTAMA */}
+      <SidebarSeparator />
+
+      <SidebarContent className="mt-2 space-y-5 px-2">
         <SidebarGroup className="p-0">
-          <SidebarGroupLabel className="px-3 mb-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
+          <SidebarGroupLabel className="text-muted-foreground mb-2 px-3 text-[11px] font-semibold tracking-wider uppercase">
             Menu Utama
           </SidebarGroupLabel>
           <SidebarMenu className="gap-1">
@@ -105,18 +126,16 @@ export function DashboardSidebar() {
                     asChild
                     isActive={isActive}
                     tooltip={state === "collapsed" ? item.title : undefined}
-                    className={`relative overflow-hidden transition-all duration-200 h-9 ${isActive
-                        ? "bg-teal-50/80 text-teal-700 font-semibold hover:bg-teal-50 hover:text-teal-800"
-                        : "text-gray-500 hover:bg-gray-100 hover:text-gray-900 font-medium"
-                      }`}
+                    className={`${navigationButtonClass} ${isActive ? activeNavigationClass : inactiveNavigationClass}`}
                   >
                     <Link href={item.href} className="flex items-center gap-3">
-                      {/* Indikator vertikal aktif */}
                       {isActive && (
-                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-teal-600 rounded-r-full" />
+                        <div className="bg-primary absolute inset-y-2 left-0 w-1 rounded-r-full" />
                       )}
-                      <item.icon className={`w-4 h-4 shrink-0 ${isActive ? "text-teal-600" : "text-gray-400"}`} />
-                      <span className="text-[13px]">{item.title}</span>
+                      <item.icon
+                        className={`h-4 w-4 shrink-0 ${isActive ? "text-primary" : "text-muted-foreground"}`}
+                      />
+                      <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -125,9 +144,8 @@ export function DashboardSidebar() {
           </SidebarMenu>
         </SidebarGroup>
 
-        {/* GROUP 2: MANAJEMEN KEANGGOTAAN */}
         <SidebarGroup className="p-0">
-          <SidebarGroupLabel className="px-3 mb-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
+          <SidebarGroupLabel className="text-muted-foreground mb-2 px-3 text-[11px] font-semibold tracking-wider uppercase">
             Manajemen Anggota
           </SidebarGroupLabel>
           <SidebarMenu className="gap-1">
@@ -139,17 +157,16 @@ export function DashboardSidebar() {
                     asChild
                     isActive={isActive}
                     tooltip={state === "collapsed" ? item.title : undefined}
-                    className={`relative overflow-hidden transition-all duration-200 h-9 ${isActive
-                        ? "bg-teal-50/80 text-teal-700 font-semibold hover:bg-teal-50 hover:text-teal-800"
-                        : "text-gray-500 hover:bg-gray-100 hover:text-gray-900 font-medium"
-                      }`}
+                    className={`${navigationButtonClass} ${isActive ? activeNavigationClass : inactiveNavigationClass}`}
                   >
                     <Link href={item.href} className="flex items-center gap-3">
                       {isActive && (
-                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-teal-600 rounded-r-full" />
+                        <div className="bg-primary absolute inset-y-2 left-0 w-1 rounded-r-full" />
                       )}
-                      <item.icon className={`w-4 h-4 shrink-0 ${isActive ? "text-teal-600" : "text-gray-400"}`} />
-                      <span className="text-[13px]">{item.title}</span>
+                      <item.icon
+                        className={`h-4 w-4 shrink-0 ${isActive ? "text-primary" : "text-muted-foreground"}`}
+                      />
+                      <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -159,17 +176,17 @@ export function DashboardSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="p-4 pb-6">
+      <SidebarFooter className="p-3 pb-4">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               onClick={() => logoutMutation.mutate()}
               disabled={logoutMutation.isPending}
               tooltip={state === "collapsed" ? "Keluar Sistem" : undefined}
-              className="w-full justify-start text-red-600 font-medium hover:text-red-700 hover:bg-red-50/80 transition-colors h-9"
+              className="text-destructive hover:bg-destructive/10 hover:text-destructive h-10 w-full justify-start rounded-md font-medium transition-colors"
             >
-              <LogOut className="w-4 h-4 text-red-500 shrink-0" />
-              <span className="text-[13px]">Keluar Sistem</span>
+              <LogOut className="h-4 w-4 shrink-0" />
+              <span className="text-sm">Keluar Sistem</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

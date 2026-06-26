@@ -9,7 +9,7 @@ import * as XLSX from "xlsx";
 export function exportToExcel<T extends Record<string, unknown>>(
   data: T[],
   filename: string,
-  sheetName: string = "Sheet1",
+  sheetName = "Sheet1",
 ) {
   // Build worksheet dari array of objects
   const worksheet = XLSX.utils.json_to_sheet(data);
@@ -20,7 +20,7 @@ export function exportToExcel<T extends Record<string, unknown>>(
     const colWidths = keys.map((key) => {
       const maxLen = Math.max(
         key.length,
-        ...data.map((row) => String(row[key] ?? "").length),
+        ...data.map((row) => valueToCellText(row[key]).length),
       );
       return { wch: Math.min(maxLen + 4, 40) }; // max 40 char width
     });
@@ -40,4 +40,18 @@ export function exportToExcel<T extends Record<string, unknown>>(
  */
 export function triggerPrint() {
   window.print();
+}
+
+function valueToCellText(value: unknown) {
+  if (value == null) return "";
+  if (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean" ||
+    typeof value === "bigint"
+  ) {
+    return String(value);
+  }
+  if (value instanceof Date) return value.toLocaleDateString("id-ID");
+  return JSON.stringify(value) ?? "";
 }

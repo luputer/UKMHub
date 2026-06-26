@@ -126,7 +126,7 @@ export default function UkmPage() {
                 <p className="text-sm text-gray-500">Kelola direktori wadah organisasi dan unit kegiatan kemahasiswaan resmi POLIBAN.</p>
             </div>
 
-            {/* TOOLBAR SECTION */}
+           {/* TOOLBAR SECTION */}
             <div className="no-print flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="relative flex-1 max-w-sm">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -138,40 +138,37 @@ export default function UkmPage() {
                     />
                 </div>
 
-                <Button asChild className="bg-teal-600 hover:bg-teal-700 text-white gap-1.5 font-medium shadow-sm">
-                    <Link href="/dashboard/ukm/create">
-                        <Plus className="w-4 h-4" />
-                        Tambah UKM Baru
-                    </Link>
-                </Button>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="border-gray-200 text-gray-600 gap-2 text-xs">
-                            <SlidersHorizontal className="w-3.5 h-3.5 text-gray-400" />
-                            Aksi Lainnya
-                            <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-[200px]">
-                        <DropdownMenuLabel className="text-xs text-gray-400">Opsi Export/Cetak</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={handleExportExcel} className="text-xs">
-                            <FileSpreadsheet className="w-3.5 h-3.5 mr-2" />
-                            Export ke Excel
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={triggerPrint} className="text-xs">
-                            <Printer className="w-3.5 h-3.5 mr-2" />
-                            Cetak Halaman
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild className="bg-teal-600 hover:bg-teal-700 text-white text-xs gap-1.5 font-medium shadow-sm">
-                            <Link href="/dashboard/ukm/create">
-                                <Plus className="w-4 h-4" />
-                                Tambah UKM Baru
-                            </Link>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                {/* Tombol Tambah dan Dropdown didekatkan di sini */}
+                <div className="flex items-center gap-2">
+                    <Button asChild className="bg-teal-600 hover:bg-teal-700 text-white gap-1.5 font-medium shadow-sm">
+                        <Link href="/dashboard/ukm/create">
+                            <Plus className="w-4 h-4" />
+                            Tambah UKM Baru
+                        </Link>
+                    </Button>
+
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="border-gray-200 text-gray-600 gap-2 text-xs">
+                                <SlidersHorizontal className="w-3.5 h-3.5 text-gray-400" />
+                                Aksi Lainnya
+                                <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-[200px]">
+                            <DropdownMenuLabel className="text-xs text-gray-400">Opsi Export/Cetak</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={handleExportExcel} className="text-xs">
+                                <FileSpreadsheet className="w-3.5 h-3.5 mr-2" />
+                                Export ke Excel
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={triggerPrint} className="text-xs">
+                                <Printer className="w-3.5 h-3.5 mr-2" />
+                                Cetak Halaman
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
 
             {/* TABLE CONTENT */}

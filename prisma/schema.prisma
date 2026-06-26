@@ -1,0 +1,60 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "../generated/prisma"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model Admin {
+    id        String   @id @default(cuid())
+    username  String   @unique
+    password  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Mahasiswa {
+    id           String      @id @default(cuid())
+    nim          String      @unique
+    nama         String
+    jurusan      String
+    prodi        String
+    registeredBy String
+    createdAt    DateTime    @default(now())
+    updatedAt    DateTime    @updatedAt
+    keanggotaan  AnggotaUKM?
+}
+
+model Ukm {
+    id           String       @id @default(cuid())
+    kodeUkm      String       @unique
+    namaUkm      String       @unique
+    deskripsi    String?
+    registeredBy String
+    createdAt    DateTime     @default(now())
+    updatedAt    DateTime     @updatedAt
+    paraAnggota  AnggotaUKM[]
+}
+
+model AnggotaUKM {
+    id            String    @id @default(cuid())
+    mahasiswaId   String    @unique
+    ukmId         String
+    approvedBy    String
+    tanggalGabung DateTime  @default(now())
+    mahasiswa     Mahasiswa @relation(fields: [mahasiswaId], references: [id], onDelete: Cascade)
+    ukm           Ukm       @relation(fields: [ukmId], references: [id], onDelete: Cascade)
+
+    @@index([ukmId], map: "AnggotaUKM_ukmId_fkey")
+}
+
+model Todo {
+    id        Int      @id @default(autoincrement())
+    title     String
+    completed Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime
+}
